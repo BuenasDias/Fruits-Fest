@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_casino"
+    android:theme="@style/Theme.AppCompat.NoActionBar"
+    tools:context=".presentation.activities.SlotsActivity">
+
+    <TextView
+        android:textStyle="bold"
+        android:id="@+id/txt_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_text"
+        android:gravity="center_horizontal"
+        android:paddingVertical="20dp"
+        android:paddingHorizontal="30dp"
+        android:text="BALANS 1000"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frame_bar"
+        android:layout_width="560dp"
+        android:layout_height="190dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bgbgslots33"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <com.fruits.vlk.fest.slotsGame.imageViewScrolling.ImageViewScrolling
+                android:id="@+id/image1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginRight="10dp"/>
+
+            <com.fruits.vlk.fest.slotsGame.imageViewScrolling.ImageViewScrolling
+                android:id="@+id/image2"
+                android:layout_width="150dp"
+                android:layout_height="150dp" />
+
+            <com.fruits.vlk.fest.slotsGame.imageViewScrolling.ImageViewScrolling
+                android:id="@+id/image3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_down"
+        android:layout_width="147dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/bg_btn_test3"
+        android:text="SPIN"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/frame_bar" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_stake"
+        android:layout_width="137dp"
+        android:layout_height="59dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/bg_btn_test3"
+        android:text="STAKE"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/frame_bar"
+        app:layout_constraintTop_toBottomOf="@+id/frame_bar"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_promt"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:minWidth="40dp"
+        android:minHeight="40dp"
+        android:background="@drawable/btn_question"
+        android:text=" ? "
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="57dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/bg_btn_test3"
+        android:padding="16dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="50"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_stake" />
+
+    <ImageView
+        android:id="@+id/img_jackpot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:src="@drawable/jackpot"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
