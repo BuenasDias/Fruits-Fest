@@ -22,6 +22,8 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait" />
 
+
+
         <activity
             android:name=".presentation.activities.AuthActivity"
             android:configChanges="orientation"
