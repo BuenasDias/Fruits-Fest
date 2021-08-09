@@ -5,17 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Response {
-    @SerializedName("data")
-    private List<DataItem> data;
+    @SerializedName("code")
+    private int code;
 
-    @SerializedName("status")
-    private String status;
-
-    public List<DataItem> getData(){
-        return data;
-    }
-
-    public String getStatus(){
-        return status;
+    public int getCode() {
+        return code;
     }
 }

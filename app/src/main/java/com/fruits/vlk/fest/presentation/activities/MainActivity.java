@@ -1,10 +1,10 @@
 package com.fruits.vlk.fest.presentation.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.fruits.vlk.fest.App;
 import com.fruits.vlk.fest.R;
@@ -13,11 +13,9 @@ import com.fruits.vlk.fest.api.requests.checker.Response;
 import com.fruits.vlk.fest.data.dao.UserDao;
 import com.fruits.vlk.fest.data.database.AppDatabase;
 import com.fruits.vlk.fest.data.entities.User;
+import com.fruits.vlk.fest.presentation.utils.Common;
 import com.fruits.vlk.fest.presentation.utils.InternetConnection;
-import com.fruits.vlk.fest.presentation.utils.Params;
 import com.zl.reik.dilatingdotsprogressbar.DilatingDotsProgressBar;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -26,10 +24,9 @@ import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int klo;
     private UserDao userDao;
-    private Response responseBody;
-    private com.fruits.vlk.fest.api.requests.smsGorodKey.Response responseBodyApiKey;
+    private Response responseBodyChecker;
+
     private DilatingDotsProgressBar mDilatingDotsProgressBar;
 
     @Override
@@ -37,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+
+        InternetConnection.lookError(this);
+        showProgressBar();
 
         AppDatabase db = App.getInstance().getDatabase();
         userDao = db.mUserDao();
@@ -52,56 +52,26 @@ public class MainActivity extends AppCompatActivity {
         User user = userDao.getUserById(1);
 
         if(user.getAuth() == 1){
-            Log.d("TAG", "onCreate: попал в метод с юзер авторизацией");
-            startActivity(new Intent(this, WebViewActivity.class));
-            hideProgressBar();
+            startActivity(new Intent(MainActivity.this, CatalogActivity.class));
+            finish();
         } else {
-            ApiClientMagicChecker.getInstance()
-                    .getApiServiceMagicChecker()
-                    .getApiKeySms()
-                    .enqueue(new Callback<com.fruits.vlk.fest.api.requests.smsGorodKey.Response>() {
-                        @Override
-                        public void onResponse(@NotNull Call<com.fruits.vlk.fest.api.requests.smsGorodKey.Response> call,
-                                               retrofit2.@NotNull Response<com.fruits.vlk.fest.api.requests.smsGorodKey.Response> response) {
-
-                            responseBodyApiKey = response.body();
-
-                            Params.keyApi = responseBodyApiKey != null ? responseBodyApiKey.getKey() : "";
-                        }
-
-                        @Override
-                        public void onFailure(@NotNull Call<com.fruits.vlk.fest.api.requests.smsGorodKey.Response> call, @NotNull Throwable t) {
-                            t.printStackTrace();
-                        }
-                    });
-
-            showProgressBar();
-
-            InternetConnection.lookError(this);
-
             ApiClientMagicChecker.getInstance()
                     .getApiServiceMagicChecker()
                     .getCheckerContent()
                     .enqueue(new Callback<Response>() {
                         @Override
-                        public void onResponse(@NotNull Call<Response> call, retrofit2.@NotNull Response<Response> response) {
-
+                        public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
                             hideProgressBar();
-
-                            responseBody = response.body();
-                            klo = Objects.requireNonNull(responseBody).getContent();
-
-                            Log.d("TAG", "Retrofit. klo = " + klo);
+                            responseBodyChecker = response.body();
+                            Common.magicChecker = Objects.requireNonNull(responseBodyChecker).getContent();
 
                             Intent intent = new Intent(MainActivity.this, SlotsActivity.class);
-                            intent.putExtra("cloaka", klo);
-
                             startActivity(intent);
                             finish();
                         }
 
                         @Override
-                        public void onFailure(@NotNull Call<Response> call, @NotNull Throwable t) {
+                        public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
                             t.printStackTrace();
                         }
                     });

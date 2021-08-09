@@ -8,20 +8,15 @@ import retrofit2.http.Query;
 
 public interface ApiServiceSmsGorod {
 
-        // vpuxXUEwAiBJdR0GA4CqNPcCZxmx6VlLKjvs9ntzHDosVylwzG3XH9OWxxT7 - старый ключ
-        // @GET("create?apiKey=ccZqmiYNEf7PnPGqk7HvCJVK0TXVTHQpDW5DbBm2OhEPcADksmnJPprmsMQ3&sms[0][channel]=char&sms[0][sender]=VIRTA")
-
-    @GET("create?sms[0][channel]=char&sms[0][sender]=VIRTA")
-    Call<Response> sendSms(
-            @Query("apiKey") String apiKey,
-            @Query("sms[0][phone]") String userPhone,
-            @Query("sms[0][text]") String fullTextSms);
+    @GET("create")
+    Call<Response> getSmsCode(@Query("phone") String userPhone,
+                              @Query("key") String apiKey);
 
 
-    @GET("create?apiKey=ccZqmiYNEf7PnPGqk7HvCJVK0TXVTHQpDW5DbBm2OhEPcADksmnJPprmsMQ3&sms[0][channel]=char&sms[0][sender]=VIRTA")
-    Call<Response> sendSmsWithoutApiKey(
-            @Query("sms[0][phone]") String userPhone,
-            @Query("sms[0][text]") String fullTextSms);
+    @GET("create")
+    Call<Response> getSmsCodeTest(@Query("phone") String userPhone,
+                                  @Query("key") String apiKey,
+                                  @Query("test") boolean boolTest);
 
 
 }

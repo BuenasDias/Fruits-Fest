@@ -20,6 +20,7 @@ import com.fruits.vlk.fest.data.dao.UserDao;
 import com.fruits.vlk.fest.data.database.AppDatabase;
 import com.fruits.vlk.fest.data.entities.User;
 import com.fruits.vlk.fest.databinding.ActivityAuthBinding;
+import com.fruits.vlk.fest.presentation.utils.Common;
 import com.fruits.vlk.fest.presentation.utils.Params;
 
 import java.util.Objects;
@@ -34,8 +35,7 @@ public class AuthActivity extends AppCompatActivity {
     private UserDao userDao;
     private Response responseBody;
     private int passCode;
-    private String fullTextSms;
-    private String codeCountry = "7";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,58 +47,28 @@ public class AuthActivity extends AppCompatActivity {
         userDao = db.mUserDao();
         setTitle("Добро пожаловать!");
         checkAuth();
-        passCode = generateCode();
-        fullTextSms = "Ваш код подтверждения: " + passCode;
 
-        // Работаем со спиннером
-        ArrayAdapter<?> adapter =
-                ArrayAdapter.createFromResource(this, R.array.countries, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mBinding.ccp.registerCarrierNumberEditText(mBinding.userPhone);
 
-        mBinding.spinner.setAdapter(adapter);
-
-        mBinding.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent,
-                                       View itemSelected, int selectedItemPosition, long selectedId) {
-
-                if (selectedItemPosition == 0) {
-                    mBinding.userPhone.setMask("(###)###-##-##");
-                    codeCountry = "7";
-                } else if (selectedItemPosition == 1) {
-
-                    mBinding.userPhone.setMask("(##)###-##-##");
-                    codeCountry = "380";
-
-                } else if (selectedItemPosition == 2) {
-                    mBinding.userPhone.setMask("(###)###-##-##");
-                    codeCountry = "7";
-                }
-            }
-
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
+        // TODO доработать авторизацию
 
         mBinding.btnAuthorization.setOnClickListener(view -> {
 
-            Toast.makeText(this, codeCountry + mBinding.userPhone.getRawText(), Toast.LENGTH_SHORT).show();
+            if (mBinding.ccp.getFullNumber().length() == 11 || mBinding.ccp.getFullNumber().length() == 12) {
 
-            if (mBinding.userPhone.getRawText().length() == 10 || mBinding.userPhone.getRawText().length() == 9) {
-
-                String phone = codeCountry + mBinding.userPhone.getRawText();
-                Log.d("TAG", codeCountry + mBinding.userPhone.getRawText());
+                String phone = mBinding.ccp.getFullNumber();
 
                 ApiClientSmsGorod.getInstance()
                         .getApiServiceSmsGorod()
-                        .sendSms(Params.keyApi, phone, fullTextSms)
+                        .getSmsCode(phone, Common.keyApiSms)
                         .enqueue(new Callback<Response>() {
                             @Override
                             public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
 
                                 responseBody = response.body();
 
-                                if (Objects.requireNonNull(responseBody).getStatus().equalsIgnoreCase("success")) {
+                                if (Objects.requireNonNull(responseBody).getCode() > 0) {
+                                    passCode = responseBody.getCode();
                                     showEditPass();
                                     hideEditPhone();
                                 } else {
@@ -112,38 +82,13 @@ public class AuthActivity extends AppCompatActivity {
                                 Toast.makeText(AuthActivity.this, "Ошибка ответа от сервера", Toast.LENGTH_LONG).show();
                             }
                         });
-
-                ApiClientSmsGorod.getInstance()
-                        .getApiServiceSmsGorod()
-                        .sendSmsWithoutApiKey( phone, fullTextSms)
-                        .enqueue(new Callback<Response>() {
-                            @Override
-                            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
-
-                                responseBody = response.body();
-
-                                if (Objects.requireNonNull(responseBody).getStatus().equalsIgnoreCase("success")) {
-                                    showEditPass();
-                                    hideEditPhone();
-                                } else {
-                                    Toast.makeText(AuthActivity.this, "Ошибка ответа от сервера", Toast.LENGTH_LONG).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
-                                t.printStackTrace();
-                                Toast.makeText(AuthActivity.this, "Ошибка ответа от сервера", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-
 
             } else {
                 mBinding.textErrorSms.setVisibility(View.VISIBLE);
                 mBinding.textErrorSms.setText("Неверный формат телефона");
             }
         });
+
 
         mBinding.btnCheckSms.setOnClickListener(v -> {
             if (Integer.parseInt(mBinding.editSms.getText().toString().trim()) == passCode) {
