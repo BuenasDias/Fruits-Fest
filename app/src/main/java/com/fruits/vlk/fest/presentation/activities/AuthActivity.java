@@ -119,16 +119,12 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void showEditPhone() {
-        mBinding.userName.setVisibility(View.VISIBLE);
         mBinding.userPhone.setVisibility(View.VISIBLE);
-        mBinding.spinner.setVisibility(View.VISIBLE);
         mBinding.btnAuthorization.setVisibility(View.VISIBLE);
     }
 
     private void hideEditPhone() {
-        mBinding.userName.setVisibility(View.GONE);
         mBinding.userPhone.setVisibility(View.GONE);
-        mBinding.spinner.setVisibility(View.GONE);
         mBinding.btnAuthorization.setVisibility(View.GONE);
     }
 

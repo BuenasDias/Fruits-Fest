@@ -1,6 +1,7 @@
 package com.fruits.vlk.fest.presentation.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,7 +22,8 @@ public class WebViewActivity extends AppCompatActivity {
         mBinding = ActivityWebViewBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        url = Params.urlProduct;
+        Intent intent = getIntent();
+        url = intent.getStringExtra("url");
 
         mBinding.webView.getSettings().setJavaScriptEnabled(true);
         mBinding.webView.setWebViewClient(new MyWebViewClient());

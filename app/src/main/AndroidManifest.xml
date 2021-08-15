@@ -19,7 +19,14 @@
         tools:targetApi="m">
         <activity
             android:name=".presentation.activities.CatalogActivity"
-            android:exported="true" />
+            android:exported="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".presentation.activities.WebViewActivity"
             android:configChanges="orientation"
@@ -36,11 +43,9 @@
         <activity
             android:name=".presentation.activities.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
+
         </activity>
     </application>
 

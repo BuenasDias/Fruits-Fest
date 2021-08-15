@@ -4,6 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bggame5"
     tools:context=".presentation.activities.CatalogActivity">
+
+    <RelativeLayout
+        android:id="@+id/relative_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/browser_actions_bg_grey"
+        android:visibility="visible"
+        android:gravity="center"
+        tools:visibility="gone"
+        android:translationZ="100dp">
+
+        <com.zl.reik.dilatingdotsprogressbar.DilatingDotsProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:color="#E615A1"
+            android:radius="6dp"
+            android:visibility="visible"
+            app:dd_animationDuration="500"
+            app:dd_horizontalSpacing="4dp"
+            app:dd_numDots="4"
+            app:dd_scaleMultiplier="1.5" />
+
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_catalog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/catalog_item"
+        tools:itemCount="2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

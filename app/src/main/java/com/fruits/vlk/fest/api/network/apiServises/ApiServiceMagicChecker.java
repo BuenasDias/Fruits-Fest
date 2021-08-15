@@ -13,6 +13,6 @@ public interface ApiServiceMagicChecker {
 
 
     // TODO починить запрос
-    @GET("products.html")
+    @GET("product.html")
     Call<ResponseProducts> getProducts();
 }
