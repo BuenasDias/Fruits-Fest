@@ -1,8 +1,8 @@
-package com.fruits.vlk.fest.api.requests.products;
+package com.fruits.vlk.fest.api.requests.newProducts;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ListItems {
+public class ProductsItem{
 
 	@SerializedName("image")
 	private String image;

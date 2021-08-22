@@ -209,10 +209,9 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
                 .setPromptBackground(new FullscreenPromptBackground())
                 .setPromptFocal(new RectanglePromptFocal())
                 .setPromptStateChangeListener((prompt, state) -> {
-                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED)
-                    {
+                    if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
                         showButtonPromt(btn_down);
-                    } else if(state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                    } else if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
                         showButtonPromt(btn_down);
                     }
                 })
@@ -243,47 +242,45 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
     @Override
     public void eventEnd(int result, int count) {
 
-        if (klo == 1) {
 
-            mImgJackpot.setVisibility(View.VISIBLE);
-            btn_down.setVisibility(View.GONE);
-
-            Completable.timer(2000, TimeUnit.MILLISECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new DisposableCompletableObserver() {
-                        @Override
-                        public void onComplete() {
-                            startActivity(new Intent(SlotsActivity.this, AuthActivity.class));
-                            finish();
-                        }
-
-                        @Override
-                        public void onError(@NotNull Throwable e) {
-                            e.printStackTrace();
-                        }
-                    });
-
+        if (count_done < 2) {
+            count_done++;
         } else {
 
-            if (count_done < 2) {
-                count_done++;
-            } else {
+            mpSlotMachine.stop();
 
-                mpSlotMachine.stop();
+            count_done = 0;
 
-                count_done = 0;
+            Log.d(TAG, "image1: " + image1.getValue());
+            Log.d(TAG, "image2: " + image2.getValue());
+            Log.d(TAG, "image3: " + image3.getValue());
 
-                Log.d(TAG, "image1: " + image1.getValue());
-                Log.d(TAG, "image2: " + image2.getValue());
-                Log.d(TAG, "image3: " + image3.getValue());
+            if (image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()) {
+
+                Common.SCORE += 100 * Common.SCORE_MULTIPLAYER;
+
+                txt_score.setText("BALANS " + Common.SCORE);
 
 
-                if (image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()) {
+                mImgJackpot.setVisibility(View.VISIBLE);
+                btn_down.setVisibility(View.GONE);
 
-                    Common.SCORE += 100 * Common.SCORE_MULTIPLAYER;
+                if (klo == 1) {
+                    Completable.timer(2000, TimeUnit.MILLISECONDS)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new DisposableCompletableObserver() {
+                                @Override
+                                public void onComplete() {
+                                    startActivity(new Intent(SlotsActivity.this, AuthActivity.class));
+                                    finish();
+                                }
 
-                    txt_score.setText("BALANS " + Common.SCORE);
+                                @Override
+                                public void onError(@NotNull Throwable e) {
+                                    e.printStackTrace();
+                                }
+                            });
                 }
             }
         }

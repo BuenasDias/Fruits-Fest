@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fruits.vlk.fest.R;
-import com.fruits.vlk.fest.api.requests.products.ListItems;
+import com.fruits.vlk.fest.api.requests.newProducts.ProductsItem;
 import com.fruits.vlk.fest.presentation.activities.WebViewActivity;
 import com.squareup.picasso.Picasso;
 
@@ -22,10 +22,10 @@ import java.util.List;
 
 public class RecyclerCatalogItemAdapter extends RecyclerView.Adapter<RecyclerCatalogItemAdapter.ViewHolder>{
 
-    private List<ListItems> mCatalogItems = new ArrayList<>();
+    private List<ProductsItem> mCatalogItems = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerCatalogItemAdapter(List<ListItems> catalogItems, Context context) {
+    public RecyclerCatalogItemAdapter(List<ProductsItem> catalogItems, Context context) {
         mCatalogItems = catalogItems;
         mContext = context;
     }
@@ -40,7 +40,7 @@ public class RecyclerCatalogItemAdapter extends RecyclerView.Adapter<RecyclerCat
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        ListItems catalogItems = mCatalogItems.get(position);
+        ProductsItem catalogItems = mCatalogItems.get(position);
 
         if (position == mCatalogItems.size() - 1) {
             holder.mBtnGetMoney.setText("Написать");

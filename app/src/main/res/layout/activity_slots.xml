@@ -9,7 +9,6 @@
     tools:context=".presentation.activities.SlotsActivity">
 
     <TextView
-        android:textStyle="bold"
         android:id="@+id/txt_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,11 +18,12 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_text"
         android:gravity="center_horizontal"
-        android:paddingVertical="20dp"
         android:paddingHorizontal="30dp"
+        android:paddingVertical="20dp"
         android:text="BALANS 1000"
         android:textColor="@android:color/white"
         android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +49,7 @@
                 android:id="@+id/image1"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp" />
 
             <com.fruits.vlk.fest.slotsGame.imageViewScrolling.ImageViewScrolling
                 android:id="@+id/image2"
@@ -60,7 +60,7 @@
                 android:id="@+id/image3"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp" />
 
         </LinearLayout>
     </FrameLayout>
@@ -81,7 +81,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/frame_bar" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <TextView
         android:id="@+id/btn_stake"
         android:layout_width="137dp"
         android:layout_height="59dp"
@@ -91,6 +91,7 @@
         android:layout_marginBottom="28dp"
         android:background="@drawable/bg_btn_test3"
         android:text="STAKE"
+        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -109,28 +110,60 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/btn_question"
         android:minWidth="40dp"
         android:minHeight="40dp"
-        android:background="@drawable/btn_question"
         android:text=" ? "
         android:textColor="@color/black"
         android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
+        android:id="@+id/btn_plus"
         android:layout_width="57dp"
         android:layout_height="59dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginBottom="28dp"
         android:background="@drawable/bg_btn_test3"
-        android:padding="16dp"
         android:gravity="center"
-        android:textStyle="bold"
-        android:text="50"
+        android:padding="16dp"
+        android:text="+"
         android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/count_spin" />
+
+    <TextView
+        android:id="@+id/btn_minus"
+        android:layout_width="57dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/bg_btn_test3"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="-"
+        android:textSize="20dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_stake" />
+
+    <TextView
+        android:id="@+id/count_spin"
+        android:layout_width="57dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/bg_btn_test3"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="25"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_minus" />
 
     <ImageView
         android:id="@+id/img_jackpot"
