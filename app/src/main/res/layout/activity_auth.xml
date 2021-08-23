@@ -3,7 +3,6 @@
     android:id="@+id/constrain_root"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:mask="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -97,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/flag_transparent"
-                android:hint="Ваш номер телефона"
+                android:hint="Your phone number"
                 android:inputType="phone"
                 android:singleLine="true"
                 android:textColor="@color/white"
@@ -111,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
-            android:text="Код города вводить не нужно!"
+            android:text="You do not need to enter the country code!"
             android:textColor="@color/white"
             android:textSize="14dp" />
 

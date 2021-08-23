@@ -87,7 +87,7 @@ public class ImageViewScrolling extends FrameLayout {
             image_view.setImageResource(R.drawable.orange_done);
         else if(value == Util.TRIPLE)
             image_view.setImageResource(R.drawable.triple_done);
-        else
+        else if(value == Util.WATERMELON)
             image_view.setImageResource(R.drawable.waternelon_done);
 
 

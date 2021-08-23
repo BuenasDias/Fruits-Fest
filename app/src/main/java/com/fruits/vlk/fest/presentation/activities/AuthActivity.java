@@ -1,7 +1,7 @@
 package com.fruits.vlk.fest.presentation.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +37,7 @@ public class AuthActivity extends AppCompatActivity {
     private ResponseAuthInfo mResponseAuthInfo;
     private int passCode;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,62 +45,58 @@ public class AuthActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
         AppDatabase db = App.getInstance().getDatabase();
         userDao = db.mUserDao();
-        setTitle("Добро пожаловать!");
+        setTitle("Welcome!");
         checkAuth();
-
         getAuthData();
 
         mBinding.ccp.registerCarrierNumberEditText(mBinding.userPhone);
 
         mBinding.btnAuthorization.setOnClickListener(view -> {
 
+//            // TEST
+//            User user = new User();
+//            user.id = 1;
+//            user.auth = 1;
+//            user.name = mBinding.ccp.getSelectedCountryNameCode();
+//
+//            userDao.updateUser(user);
+//
+//            startActivity(new Intent(this, CatalogActivity.class));
+//            // TEST
 
-            // TEST
-            User user = new User();
-            user.id = 1;
-            user.auth = 1;
-            user.name = mBinding.ccp.getSelectedCountryNameCode();
+            Log.d(TAG, "country CountryNameCode: " + mBinding.ccp.getSelectedCountryNameCode()); // Вот это
 
-            userDao.updateUser(user);
+            if (mBinding.ccp.getFullNumber().length() == 11 || mBinding.ccp.getFullNumber().length() == 12) {
 
-            startActivity(new Intent(this, CatalogActivity.class));
-            // TEST
+                String phone = mBinding.ccp.getFullNumber();
 
-//            Log.d(TAG, "country CountryNameCode: " + mBinding.ccp.getSelectedCountryNameCode()); // Вот это
+                ApiClientSmsGorod.getInstance()
+                        .getApiServiceSmsGorod()
+                        .getSmsCode(phone, Common.keyApiSms)
+                        .enqueue(new Callback<Response>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
 
-//            if (mBinding.ccp.getFullNumber().length() == 11 || mBinding.ccp.getFullNumber().length() == 12) {
-//
-//                String phone = mBinding.ccp.getFullNumber();
-//
-//                ApiClientSmsGorod.getInstance()
-//                        .getApiServiceSmsGorod()
-//                        .getSmsCode(phone, Common.keyApiSms)
-//                        .enqueue(new Callback<Response>() {
-//                            @Override
-//                            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
-//
-//                                responseBody = response.body();
-//
-//                                if (Objects.requireNonNull(responseBody).getCode() > 0) {
-//                                    passCode = responseBody.getCode();
-//                                    showEditPass();
-//                                    hideEditPhone();
-//                                } else {
-//                                    Toast.makeText(AuthActivity.this, "Ошибка ответа от сервера", Toast.LENGTH_LONG).show();
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
-//                                t.printStackTrace();
-//                                Toast.makeText(AuthActivity.this, "Ошибка ответа от сервера", Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//
-//            } else {
-//                mBinding.textErrorSms.setVisibility(View.VISIBLE);
-//                mBinding.textErrorSms.setText("Неверный формат телефона");
-//            }
+                                responseBody = response.body();
+
+                                if (Objects.requireNonNull(responseBody).getCode() > 0) {
+                                    passCode = responseBody.getCode();
+                                    showEditPass();
+                                    hideEditPhone();
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Response> call, @NonNull Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
+
+            } else {
+                mBinding.textErrorSms.setVisibility(View.VISIBLE);
+                mBinding.textErrorSms.setText("Invalid phone format");
+            }
         });
 
         mBinding.btnCheckSms.setOnClickListener(v -> {
@@ -117,7 +114,7 @@ public class AuthActivity extends AppCompatActivity {
 
             } else {
                 mBinding.textErrorSms.setVisibility(View.VISIBLE);
-                mBinding.textErrorSms.setText("Неверный код");
+                mBinding.textErrorSms.setText("Invalid code");
 
             }
         });

@@ -19,7 +19,6 @@ import com.fruits.vlk.fest.databinding.ActivityCatalogBinding;
 import com.fruits.vlk.fest.presentation.adapters.RecyclerCatalogItemAdapter;
 import com.zl.reik.dilatingdotsprogressbar.DilatingDotsProgressBar;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,7 +44,7 @@ public class CatalogActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
         initView();
 
-        setTitle("Список предложений");
+        setTitle("List of offers");
         showProgressBar();
 
         ApiClientMagicChecker.getInstance()
@@ -65,6 +64,7 @@ public class CatalogActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     private void updateUi(ResponseProducts responseProducts) {
 

@@ -13,7 +13,7 @@
         android:layout_weight="3"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:text="УПС!"
+        android:text="OOPS!"
         android:textSize="40dp" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:paddingHorizontal="25dp"
-        android:text="Отсутствует подключение к сети интернет"
+        android:text="There is no Internet connection"
         android:textSize="40dp" />
 
     <LinearLayout

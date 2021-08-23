@@ -38,7 +38,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="5dp"
         android:background="@drawable/bgbtn4"
-        android:text="играть"
+        android:text="play"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

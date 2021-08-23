@@ -6,15 +6,18 @@ import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fruits.vlk.fest.R;
+import com.fruits.vlk.fest.databinding.ActivitySlotsBinding;
 import com.fruits.vlk.fest.presentation.utils.Common;
 import com.fruits.vlk.fest.slotsGame.imageViewScrolling.IEventEnd;
 import com.fruits.vlk.fest.slotsGame.imageViewScrolling.ImageViewScrolling;
@@ -35,6 +38,7 @@ import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFoc
 public class SlotsActivity extends AppCompatActivity implements IEventEnd {
 
     private static final String TAG = "TAG";
+    private ActivitySlotsBinding binding;
 
     Button btn_down;
     ImageViewScrolling image1, image2, image3;
@@ -52,14 +56,15 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_slots);
-        Log.d(TAG, "onCreate: start");
+        binding = ActivitySlotsBinding.inflate(LayoutInflater.from(this));
+        setContentView(binding.getRoot());
+
         initView();
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        klo = Common.magicChecker;
-//        klo = 0;
+//        klo = Common.magicChecker;
+        klo = 0;
 
         showBalansPromt(txt_score);
 
@@ -84,7 +89,6 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
                             public void onComplete() {
                                 btn_down.setEnabled(true);
                                 btn_down.setClickable(true);
-                                Log.d(TAG, "Кнопка доступна");
                                 mpSlotMachine.stop();
                             }
 
@@ -111,7 +115,7 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
 
                     Common.SCORE -= 50;
 
-                    txt_score.setText("Ваш счет : " + Common.SCORE);
+                    txt_score.setText("SCORE : " + Common.SCORE);
 
                 } else {
                     Toast.makeText(this, "You not enough money", Toast.LENGTH_SHORT).show();
@@ -131,7 +135,6 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
                             public void onComplete() {
                                 btn_down.setEnabled(true);
                                 btn_down.setClickable(true);
-                                Log.d(TAG, "Кнопка доступна");
 //                                mpSlotMachine.stop();
                             }
 
@@ -158,13 +161,18 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
 
                     Common.SCORE -= 25;
 
-                    txt_score.setText("Ваш счет : " + Common.SCORE);
+                    txt_score.setText("SCORE : " + Common.SCORE);
 
                 } else {
                     Toast.makeText(this, "You not enough money", Toast.LENGTH_SHORT).show();
                 }
             });
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void showBalans(){
+        binding.txtScore.setText("BALANS : " + Common.SCORE);
     }
 
     private void releaseMP1() {
@@ -204,8 +212,8 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
     public void showBalansPromt(View view) {
         new MaterialTapTargetPrompt.Builder(this)
                 .setTarget(view)
-                .setPrimaryText("Ваш баланс")
-                .setSecondaryText("Нажимайте кнопку крутить чтобы выигрывать и увеличивайте свой баланс")
+                .setPrimaryText("SCORE")
+                .setSecondaryText("Press the spin button to win and increase your balance")
                 .setPromptBackground(new FullscreenPromptBackground())
                 .setPromptFocal(new RectanglePromptFocal())
                 .setPromptStateChangeListener((prompt, state) -> {
@@ -221,8 +229,8 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
     public void showButtonPromt(View view) {
         new MaterialTapTargetPrompt.Builder(this)
                 .setTarget(view)
-                .setPrimaryText("Кнопка крутить")
-                .setSecondaryText("Каждое нажатие кнопки крутить стоит 25 очков из вашего баланса")
+                .setPrimaryText("The twist button")
+                .setSecondaryText("Each click of the spin button costs 25 points from your balance")
                 .setPromptBackground(new FullscreenPromptBackground())
                 .setPromptFocal(new RectanglePromptFocal())
                 .show();
@@ -235,13 +243,35 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
         image3 = findViewById(R.id.image3);
         txt_score = findViewById(R.id.txt_score);
 
+        binding.btnMinus.setOnClickListener(v -> {
+            if(GlobalStats.currentStavka <= 5) GlobalStats.currentStavka = 5;
+            else GlobalStats.currentStavka -= 5;
+
+            showCountSpin();
+        });
+
+        binding.btnPlus.setOnClickListener(view -> {
+
+            if(GlobalStats.currentStavka >= 50) GlobalStats.currentStavka = 50;
+            else GlobalStats.currentStavka += 5;
+
+            showCountSpin();
+        });
+
         mImgJackpot = findViewById(R.id.img_jackpot);
+    }
+
+    private void showCountSpin(){
+        binding.countSpin.setText(String.valueOf(GlobalStats.currentStavka));
+    }
+
+    private void updateBalans(int multiplayer){
+        Common.SCORE += GlobalStats.currentStavka * multiplayer;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void eventEnd(int result, int count) {
-
 
         if (count_done < 2) {
             count_done++;
@@ -255,12 +285,10 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
             Log.d(TAG, "image2: " + image2.getValue());
             Log.d(TAG, "image3: " + image3.getValue());
 
-            if (image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()) {
+            if (image1.getValue() == 4 && image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()) {
 
-                Common.SCORE += 100 * Common.SCORE_MULTIPLAYER;
-
-                txt_score.setText("BALANS " + Common.SCORE);
-
+                updateBalans(1000);
+                showBalans();
 
                 mImgJackpot.setVisibility(View.VISIBLE);
                 btn_down.setVisibility(View.GONE);
@@ -281,7 +309,39 @@ public class SlotsActivity extends AppCompatActivity implements IEventEnd {
                                     e.printStackTrace();
                                 }
                             });
+                } else {
+                    Completable.timer(1500, TimeUnit.MILLISECONDS)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new DisposableCompletableObserver() {
+                                @Override
+                                public void onComplete() {
+                                    mImgJackpot.setVisibility(View.GONE);
+                                    btn_down.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onError(@NonNull Throwable e) {
+
+                                }
+                            });
+
                 }
+            } else if(image1.getValue() == 0 && image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()){
+                updateBalans(10);
+                showBalans();
+            }else if(image1.getValue() == 1 && image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()){
+                updateBalans(20);
+                showBalans();
+            }else if(image1.getValue() == 2 && image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()){
+                updateBalans(30);
+                showBalans();
+            }else if(image1.getValue() == 3 && image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()){
+                updateBalans(40);
+                showBalans();
+            }else if(image1.getValue() == 5 && image1.getValue() == image2.getValue() && image2.getValue() == image3.getValue()){
+                updateBalans(50);
+                showBalans();
             }
         }
     }

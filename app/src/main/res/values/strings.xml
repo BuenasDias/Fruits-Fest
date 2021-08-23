@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Fruits Fest</string>
-    <string name="start_text">Для продолжения, Вам необходимо авторизоваться по номеру телефона</string>
-    <string name="edit_name">Введите имя</string>
-    <string name="edit_phone">Введите телефон</string>
-    <string name="edit_sms">Код из смс</string>
-    <string name="btn_get_sms">Получить смс</string>
-    <string name="btn_check_sms">Продолжить</string>
-    <string name="error_sms">Неверный код</string>
-    <string name="btn_back">Вернуться назад</string>
+    <string name="start_text">To continue, you need to log in by phone number</string>
+    <string name="edit_name">Enter a name</string>
+    <string name="edit_phone">Enter your phone number</string>
+    <string name="edit_sms">The code from the SMS</string>
+    <string name="btn_get_sms">Get an SMS</string>
+    <string name="btn_check_sms">Continue</string>
+    <string name="error_sms">Invalid code</string>
+    <string name="btn_back">Go back</string>
 
     <string-array name="countries">
         <item>ru +7</item>
